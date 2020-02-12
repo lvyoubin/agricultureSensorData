@@ -53,7 +53,7 @@
   <select id="getSensorAddress" resultType="String">
     select sensoraddress from SensorOriginal_0_Test
   </select>
-  <select id="getCOMNum" resultType="String">
+  <select id="getComNum" resultType="String">
     select COMNum from SensorOriginal_0_Test
   </select>
   <select id="getMark" resultType="String">

@@ -16,7 +16,7 @@ public interface SensorDataMapper {
 
     List<String> getSensorAddress();
 
-    List<String> getCOMNum();
+    List<String> getComNum();
 
     List<String> getMark();
 

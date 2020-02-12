@@ -37,8 +37,8 @@ public class SensorDataServiceImpl implements ISensorDataService {
     }
 
     @Override
-    public List<String> getCOMNum() {
-        return sensorDataMapper.getCOMNum();
+    public List<String> getComNum() {
+        return sensorDataMapper.getComNum();
     }
 
     @Override

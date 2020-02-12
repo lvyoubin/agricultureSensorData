@@ -11,6 +11,12 @@ public class SensorData {
 
     private Integer sensorAddress;
 
+    private String comNum;
+
+    private String mark;
+
+    private String preserve;
+
     private Integer data00;
 
     private Integer data01;
@@ -95,6 +101,30 @@ public class SensorData {
 
     public void setSensorAddress(Integer sensorAddress) {
         this.sensorAddress = sensorAddress;
+    }
+
+    public String getComNum() {
+        return comNum;
+    }
+
+    public void setComNum(String comNum) {
+        this.comNum = comNum;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getPreserve() {
+        return preserve;
+    }
+
+    public void setPreserve(String preserve) {
+        this.preserve = preserve;
     }
 
     public Integer getData00() {

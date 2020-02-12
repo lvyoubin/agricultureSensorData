@@ -12,6 +12,7 @@
             border-spacing: 0;
             width: 100%;
         }
+
         .bordered tr:hover {
             background: #fbf8e9;
             -o-transition: all 0.1s ease-in-out;
@@ -22,20 +23,18 @@
         }
 
         .bordered th {
-            padding: 7px;
+            padding: 5px;
             text-align: center;
             cellspacing:0;
         }
 
         .bordered td{
-            padding: 7px;
+            padding: 5px;
             text-align: center;
             cellspacing:0;
         }
 
-
         .bordered th {
-
              background-image: -webkit-gradient(linear, left top, left bottom, from(#ebf3fc), to(#dce9f9));
              background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
              background-image:    -moz-linear-gradient(top, #ebf3fc, #dce9f9);
@@ -47,8 +46,6 @@
             border-left: none;
         }
 
-
-
         .bordered  tr:nth-of-type(2n){background:#FFFFFF;cursor: pointer;}
         .bordered  tr:nth-of-type(2n+1){background:#F7FAFC;cursor: pointer;}
 
@@ -59,8 +56,6 @@
             -ms-transition: all 0.1s ease-in-out;
             transition: all 0.1s ease-in-out;
         }
-
-
     </style>
 </head>
 <body>
@@ -72,8 +67,11 @@
         var myChart = echarts.init(document.getElementById('main'));
         myChart.showLoading();
         // 新建数组用于接受数据
-<!--        var allData;-->
         var recordTime = [];
+        var sensorAddress = [];
+        var comNum = [];
+        var mark = [];
+        var preserve = [];
         var data00 = [];
         var data01 = [];
         var data02 = [];
@@ -112,13 +110,15 @@
         $.ajax({url: "/getAllData", async: false,type:'GET',dataType:'json',
             success: function(data)
             {
-<!--                allData = data;-->
                 myChart.hideLoading();
 
-                alert("获取后台数据失败00！" + data.length);
                 for (var i = 0; i < data.length; i++)
                 {
                     recordTime.push(data[i].recordTime);
+                    sensorAddress.push(data[i].sensorAddress);
+                    comNum.push(data[i].comNum);
+                    mark.push(data[i].mark);
+<!--                    preserve.push(data[i].preserve);-->
                     data00.push(data[i].data00);
                     data01.push(data[i].data01);
                     data02.push(data[i].data02);
@@ -156,7 +156,7 @@
                 }
             },
             error :function(errorMsg) {
-                alert("获取后台数据失败00！");
+                alert("获取后台数据失败！");
             }
         });
 
@@ -164,13 +164,16 @@
             $.ajax({url: "/getAllData", async: false,type:'GET',dataType:'json',
                 success: function(data)
                 {
-                alert("获取后台数据失败01！" + data.length);
                     myChart.hideLoading();
                     var html = "";
                     for (var i = 0; i < data.length; i++)
                     {
                         html +="<tr>"
                                 + "<td>" + data[i].recordTime + "</td>"
+                                + "<td>" + data[i].sensorAddress + "</td>"
+                                + "<td>" + data[i].comNum + "</td>"
+                                + "<td>" + data[i].mark + "</td>"
+<!--                                + "<td>" + data[i].preserve + "</td>"-->
                                 + "<td>" + data[i].data00 + "</td>"
                                 + "<td>" + data[i].data01 + "</td>"
                                 + "<td>" + data[i].data02 + "</td>"
@@ -267,26 +270,37 @@
             tooltip: {trigger: 'axis'},
             toolbox: {
                 feature: {
-                    dataView: {readOnly: false},
-                    restore: {},
-                    saveAsImage: {}
+                    dataView:{
+                    show: true,
+                    title: '传感器数据',
+                    readOnly:false,
+                    optionToContent: function(opt) {
+                        var colName = "序号";
+                        var typeName = "时间";
+                        var dataview = opt.toolbox[0].feature.dataView;  //获取dataview
+                        var table = '<div style="position:absolute;top: 5px;left: 0px;right: 0px;line-height: 1.4em;text-align:center;font-size:14px;">'+dataview.title+'</div>'
+                        table += getTable(opt,colName,typeName);
+                        return table;
+                    }
+                },
+                restore: {},
+                saveAsImage: {}
                 }
             },
             legend: {
                     type: 'scroll',
                     orient: 'vertical',
-                    right: 2,
-                    top: 30,
+                    right: 1,
+                    top: 35,
                     bottom: 5,
-<!--                    data:['Data00', 'Data01', 'Data02', 'Data03', 'Data04']-->
-                    data:['Data00', 'Data01', 'Data02', 'Data03', 'Data04', 'Data05', 'Data06', 'Data07', 'Data08', 'Data09', 'Data0A', 'Data0B', 'Data0C', 'Data0D', 'Data0E', 'Data0F', 'Data10', 'Data11', 'Data12', 'Data13', 'Data14', 'Data15', 'Data16', 'Data17', 'Data18', 'Data19', 'Data1A', 'Data1B', 'Data1C', 'Data1D', 'Data1E', 'Data1F', 'Data20', 'Data21']
+                    data:['SensorAddress', 'Data00', 'Data01', 'Data02', 'Data03', 'Data04', 'Data05', 'Data06', 'Data07', 'Data08', 'Data09', 'Data0A', 'Data0B', 'Data0C', 'Data0D', 'Data0E', 'Data0F', 'Data10', 'Data11', 'Data12', 'Data13', 'Data14', 'Data15', 'Data16', 'Data17', 'Data18', 'Data19', 'Data1A', 'Data1B', 'Data1C', 'Data1D', 'Data1E', 'Data1F', 'Data20', 'Data21']
             },
             xAxis: {
                 type: 'category',
                 boundaryGap: true,
                 data: recordTime,
                 axisLabel :{
-                interval:0
+<!--                interval:0-->
 <!--                rotate:40-->
             }
             },
@@ -306,7 +320,13 @@
                 end: 50
               }
             ],
-            series: [{
+            series: [
+                {
+                name: 'SensorAddress',
+                type: 'line',
+                data: sensorAddress
+                },
+                {
                 name: 'Data00',
                 type: 'line',
                 data: data00
@@ -480,30 +500,58 @@
                 ]
         };
 
+        function getTable(opt,colName,typeName){
+        var axisData = opt.xAxis[0].data;//获取图形的data数组
+        var series = opt.series;//获取series
+        var num = 0;//记录序号
+        var sum = new Array();//获取合计数组（根据对应的系数生成相应数量的sum）
+        for(var i=0; i<series.length; i++){
+            sum[i] = 0;
+        }
+        var table = '<table class="bordered"><thead><tr>'
+            + '<th>'+colName+'</th>'
+            + '<th>'+typeName+'</th>';
+        for(var i=0; i<series.length;i++){
+            table += '<th>'+series[i].name+'</th>'
+        }
+        table += '</tr></thead><tbody>';
+        for (var i = 0, l = axisData.length; i < l; i++) {
+            num += 1;
+            for(var n=0;n<series.length;n++){
+                if(series[n].data[i]){
+                    sum[n] += Number(series[n].data[i]);
+                }else{
+                    sum[n] += Number(0);
+                }
+            }
+            table += '<tr>'
+                + '<td>' + num + '</td>'
+                + '<td>' + axisData[i] + '</td>';
+            for(var j=0; j<series.length;j++){
+                if(series[j].data[i]){
+                    table += '<td>' + series[j].data[i] + '</td>';
+                }else{
+                    table += '<td>' + 0 + '</td>';
+                }
+
+            }
+            table += '</tr>';
+        }
+
+        table += '</tbody></table>';
+        return table;
+    }
+
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
-
-<!--        $(document).ready(function() {-->
-<!--            $.ajax({-->
-<!--            url : "/getData00",//请求地址-->
-<!--            dataType : "json",//数据格式-->
-<!--            type : "get",//请求方式-->
-<!--            async : false,//是否异步请求-->
-<!--            success : function(data) {   //如何发送成功-->
-<!--            var html = "";-->
-<!--            for(var i=0;i<data.length;i++){    //遍历data数组-->
-<!--                    var ls = data[i];-->
-<!--                    html +="<tr><td>"+ls+"</td>" + "<td>"+ls+"</td></tr>";-->
-<!--                }-->
-<!--                $("#ulul").append(html); //在html页面id=ulul的标签里显示html内容-->
-<!--            }-->
-<!--        })-->
-<!--        })-->
-
     </script>
     <table id="ulul" border="1">
         <tr>
             <th>RecordTime</th>
+            <th>SensorAddress</th>
+            <th>ComNum</th>
+            <th>Mark</th>
+<!--            <th>Preserve</th>-->
             <th>Data00</th>
             <th>Data01</th>
             <th>Data02</th>
@@ -538,9 +586,7 @@
             <th>Data1F</th>
             <th>Data20</th>
             <th>Data21</th>
-            <th>COMNum</th>
-            <th>Mark</th>
-            <th>Preserve</th>
+
         </tr>
     </table>
 </body>

@@ -12,7 +12,7 @@ public interface ISensorDataService {
 
     List<String> getSensorAddress();
 
-    List<String> getCOMNum();
+    List<String> getComNum();
 
     List<String> getMark();
 
