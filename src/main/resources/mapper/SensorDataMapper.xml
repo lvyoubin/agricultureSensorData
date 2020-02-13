@@ -45,7 +45,7 @@
     <result column="Preserve" property="preserve" jdbcType="LONGVARCHAR" />
   </resultMap>
   <select id="getAllData" resultMap="BaseResultMap">
-    select top 100 * from SensorOriginal_0_Test
+    select top 300 * from SensorOriginal_0_Test
   </select>
   <select id="getRecordTime" resultType="String">
     select recordtime from SensorOriginal_0_Test

@@ -2,658 +2,443 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>ECharts</title>
+    <title>Agriculture SensorData</title>
     <script src="js/echarts.min.js"></script>
     <script src="js/jquery.js"></script>
 </head>
 <body>
 <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-<div id="main" style="height:400px;"></div>
+<div id="main" style="height:500px;"></div>
 
 <script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
-<!--    myChart.showLoading();-->
-	// 新建数组用于接受数据，因为我们
-	var allData = [];
-    var recordTime = [];
-    var data00 = [];
-    var data01 = [];
-    var data02 = [];
-    var data03 = [];
-    var data04 = [];
-    var data05 = [];
-    var data06 = [];
-    var data07 = [];
-    var data08 = [];
-    var data09 = [];
-    var data0a = [];
-    var data0b = [];
-    var data0c = [];
-    var data0d = [];
-    var data0e = [];
-    var data0f = [];
-    var data10 = [];
-    var data11 = [];
-    var data12 = [];
-    var data13 = [];
-    var data14 = [];
-    var data15 = [];
-    var data16 = [];
-    var data17 = [];
-    var data18 = [];
-    var data19 = [];
-    var data1a = [];
-    var data1b = [];
-    var data1c = [];
-    var data1d = [];
-    var data1e = [];
-    var data1f = [];
-    var data20 = [];
-    var data21 = [];
+        // 初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+        // 新建数组用于接受数据
+        var recordTime = [];
+        var sensorAddress = [];
+        var comNum = [];
+        var mark = [];
+        var preserve = [];
+        var data00 = [];
+        var data01 = [];
+        var data02 = [];
+        var data03 = [];
+        var data04 = [];
+        var data05 = [];
+        var data06 = [];
+        var data07 = [];
+        var data08 = [];
+        var data09 = [];
+        var data0a = [];
+        var data0b = [];
+        var data0c = [];
+        var data0d = [];
+        var data0e = [];
+        var data0f = [];
+        var data10 = [];
+        var data11 = [];
+        var data12 = [];
+        var data13 = [];
+        var data14 = [];
+        var data15 = [];
+        var data16 = [];
+        var data17 = [];
+        var data18 = [];
+        var data19 = [];
+        var data1a = [];
+        var data1b = [];
+        var data1c = [];
+        var data1d = [];
+        var data1e = [];
+        var data1f = [];
+        var data20 = [];
+        var data21 = [];
 
-    $.ajax({url: "/getAllData", async: false,type:'GET',dataType:'json',success: function(data){
-<!--        allData = data;-->
-<!--        data00 = data.data00;-->
-alert("获取后台数据chenggong00！" + data.length + data[0].data00);
-        for (var i = 0; i < data.length; i++){
-            data00.push(data[i].data00);}
-<!--            alert("获取后台数据失败00！" + data[i].data00);-->
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败00！");
-		}
-    });
-
-    $.ajax({url: "/getRecordTime", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            recordTime.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-<!--    $.ajax({url: "/getData00", async: false,type:'GET',dataType:'json',success: function(data){-->
-<!--        for (var i = 0; i < data.length; i++){-->
-<!--            data00.push(data[i]);}-->
-<!--        },-->
-<!--        error :function(errorMsg) {-->
-<!--			alert("获取后台数据失败！");-->
-<!--		}-->
-<!--    });-->
-
-    $.ajax({url: "/getData01", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data01.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData02", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data02.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-    $.ajax({url: "/getData03", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data03.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-    $.ajax({url: "/getData04", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data04.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData05", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data05.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData06", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data06.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData07", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data07.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData08", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data08.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData09", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data09.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0A", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0a.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0B", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0b.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0C", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0c.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0D", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0d.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0E", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0e.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData0F", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data0f.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData10", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data10.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData11", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data11.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData12", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data12.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData13", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data13.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData14", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data14.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData15", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data15.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData16", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data16.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData17", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data17.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData18", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data18.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData19", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data19.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1A", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1a.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1B", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1b.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1C", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1c.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1D", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1d.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1E", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1e.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData1F", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data1f.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData20", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data20.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-    $.ajax({url: "/getData21", async: false,type:'GET',dataType:'json',success: function(data){
-        for (var i = 0; i < data.length; i++){
-            data21.push(data[i]);}
-        },
-        error :function(errorMsg) {
-			alert("获取后台数据失败！");
-		}
-    });
-
-
-    <!--TODO 点击图例，隐藏其他曲线-->
-    var triggerAction = function(action, selected) {
-      legend = [];
-      for (name in selected) {
-        if (selected.hasOwnProperty(name)) {
-          legend.push({
-            name: name
-          });
-        }
-      }
-      myChart.dispatchAction({
-        type: action,
-        batch: legend
-      });
-    };
-    //是否只选择一个图例
-    var isFirstUnSelect = function(selected) {
-      var unSelectedCount = 0;
-      for (name in selected) {
-        if (!selected.hasOwnProperty(name)) {
-          continue;
-        }
-        if (selected[name] == false) {
-          unSelectedCount++;
-        }
-      }
-      return unSelectedCount == 1;
-    };
-    //定义一个开关，第一次点击的时候才翻转。当所有都被选择的时候，再次点击不会只显示一个。
-    var onOff = true;
-    myChart.on('legendselectchanged', function(obj) {
-      var selected = obj.selected;
-      var legend = obj.name;
-      // 使用 legendToggleSelect Action 会重新触发 legendselectchanged Event，导致本函数重复运行
-      // 使得 无 selected 对象
-      if (selected != undefined && isFirstUnSelect(selected) && onOff) {
-        triggerAction('legendToggleSelect', selected);
-        onOff = false;
-      }
-    });
-    <!--点击图例，隐藏其他曲线-->
-
-    // 指定图表的配置项和数据
-    var option = {
-        title: {
-            text: '传感器数据'
-        },
-        tooltip: {},
-        legend: {
-                type: 'scroll',
-<!--                orient: 'vertical',-->
-<!--                right: 10,-->
-<!--                top: 20,-->
-<!--                bottom: 20,-->
-                data:['Data00', 'Data01', 'Data02', 'Data03', 'Data04', 'Data05']
-<!--                data:['Data00', 'Data01', 'Data02', 'Data03', 'Data04', 'Data05', 'Data06', 'Data07', 'Data08', 'Data09', 'Data0A', 'Data0B', 'Data0C', 'Data0D', 'Data0E', 'Data0F', 'Data10', 'Data11', 'Data12', 'Data13', 'Data14', 'Data15', 'Data16', 'Data17', 'Data18', 'Data19', 'Data1A', 'Data1B', 'Data1C', 'Data1D', 'Data1E', 'Data1F', 'Data20', 'Data21']-->
-        },
-        xAxis: {
-        	type: 'category',
-            boundaryGap: false,
-            data: recordTime
-        },
-        yAxis: {type: 'value'},
-
-        dataZoom: [{
-            type: 'slider',
-            show: true,
-            start: 0,
-            end: 50,
-            handleSize: 8
-          },
-          {
-            type: 'inside',
-            start: 0,
-            end: 50
-          }
-        ],
-        series: [{
-            name: 'Data00',
-            type: 'line',
-            data: data00
-            },
+        $.ajax( {url: "/getAllData", async: false,type:'GET',dataType:'json',
+            success: function(data)
             {
-            name: 'Data01',
-            type: 'line',
-            data: data01
+                for (var i = 0; i < data.length; i++)
+                {
+                    recordTime.push(data[i].recordTime);
+                    sensorAddress.push(data[i].sensorAddress);
+                    comNum.push(data[i].comNum);
+                    mark.push(data[i].mark);
+<!--                    preserve.push(data[i].preserve);-->
+                    data00.push(data[i].data00);
+                    data01.push(data[i].data01);
+                    data02.push(data[i].data02);
+                    data03.push(data[i].data03);
+                    data04.push(data[i].data04);
+                    data05.push(data[i].data05);
+                    data06.push(data[i].data06);
+                    data07.push(data[i].data07);
+                    data08.push(data[i].data08);
+                    data09.push(data[i].data09);
+                    data0a.push(data[i].data0a);
+                    data0b.push(data[i].data0b);
+                    data0c.push(data[i].data0c);
+                    data0d.push(data[i].data0d);
+                    data0e.push(data[i].data0e);
+                    data0f.push(data[i].data0f);
+                    data10.push(data[i].data10);
+                    data11.push(data[i].data11);
+                    data12.push(data[i].data12);
+                    data13.push(data[i].data13);
+                    data14.push(data[i].data14);
+                    data15.push(data[i].data15);
+                    data16.push(data[i].data16);
+                    data17.push(data[i].data17);
+                    data18.push(data[i].data18);
+                    data19.push(data[i].data19);
+                    data1a.push(data[i].data1a);
+                    data1b.push(data[i].data1b);
+                    data1c.push(data[i].data1c);
+                    data1d.push(data[i].data1d);
+                    data1e.push(data[i].data1e);
+                    data1f.push(data[i].data1f);
+                    data20.push(data[i].data20);
+                    data21.push(data[i].data21);
+                }
             },
-            {
-            name: 'Data02',
-            type: 'line',
-            data: data02
-            },
-            {
-            name: 'Data03',
-            type: 'line',
-            data: data03
-            },
-            {
-            name: 'Data04',
-            type: 'line',
-            data: data04
-            },
-			{
-				name: 'Data05',
-				type: 'line',
-				data: data05
-			},
-			{
-				name: 'Data06',
-				type: 'line',
-				data: data06
-			},
-			{
-				name: 'Data07',
-				type: 'line',
-				data: data07
-			},
-			{
-				name: 'Data08',
-				type: 'line',
-				data: data08
-			},
-			{
-				name: 'Data09',
-				type: 'line',
-				data: data09
-			},
-			{
-				name: 'Data0A',
-				type: 'line',
-				data: data0a
-			},
-			{
-				name: 'Data0B',
-				type: 'line',
-				data: data0b
-			},
-			{
-				name: 'Data0C',
-				type: 'line',
-				data: data0c
-			},
-			{
-				name: 'Data0D',
-				type: 'line',
-				data: data0d
-			},
-			{
-				name: 'Data0E',
-				type: 'line',
-				data: data0e
-			},
-			{
-				name: 'Data0F',
-				type: 'line',
-				data: data0f
-			},
-			{
-				name: 'Data10',
-				type: 'line',
-				data: data10
-			},
-			{
-				name: 'Data11',
-				type: 'line',
-				data: data11
-			},
-			{
-				name: 'Data12',
-				type: 'line',
-				data: data12
-			},
-			{
-				name: 'Data13',
-				type: 'line',
-				data: data13
-			},
-			{
-				name: 'Data14',
-				type: 'line',
-				data: data14
-			},
-			{
-				name: 'Data15',
-				type: 'line',
-				data: data15
-			},
-			{
-				name: 'Data16',
-				type: 'line',
-				data: data16
-			},
-			{
-				name: 'Data17',
-				type: 'line',
-				data: data17
-			},
-			{
-				name: 'Data18',
-				type: 'line',
-				data: data18
-			},
-			{
-				name: 'Data19',
-				type: 'line',
-				data: data19
-			},
-			{
-				name: 'Data1A',
-				type: 'line',
-				data: data1a
-			},
-			{
-				name: 'Data1B',
-				type: 'line',
-				data: data1b
-			},
-			{
-				name: 'Data1C',
-				type: 'line',
-				data: data1c
-			},
-			{
-				name: 'Data1D',
-				type: 'line',
-				data: data1d
-			},
-			{
-				name: 'Data1E',
-				type: 'line',
-				data: data1e
-			},
-			{
-				name: 'Data1F',
-				type: 'line',
-				data: data1f
-			},
-			{
-				name: 'Data20',
-				type: 'line',
-				data: data20
-			},
-			{
-				name: 'Data21',
-				type: 'line',
-				data: data21
-			}
-            ]
-    };
+            error :function(errorMsg) {
+                alert("获取后台数据失败！");
+            }
+        });
 
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+        $(document).ready(function() {
+            $.ajax({url: "/getAllData", async: false,type:'GET',dataType:'json',
+                success: function(data)
+                {
+                    myChart.hideLoading();
+                    var html = "";
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        html +="<tr>"
+                                + "<td>" + data[i].recordTime + "</td>"
+                                + "<td>" + data[i].sensorAddress + "</td>"
+                                + "<td>" + data[i].comNum + "</td>"
+                                + "<td>" + data[i].mark + "</td>"
+<!--                                + "<td>" + data[i].preserve + "</td>"-->
+                                + "<td>" + data[i].data00 + "</td>"
+                                + "<td>" + data[i].data01 + "</td>"
+                                + "<td>" + data[i].data02 + "</td>"
+                                + "<td>" + data[i].data03 + "</td>"
+                                + "<td>" + data[i].data04 + "</td>"
+                                + "<td>" + data[i].data05 + "</td>"
+                                + "<td>" + data[i].data06 + "</td>"
+                                + "<td>" + data[i].data07 + "</td>"
+                                + "<td>" + data[i].data08 + "</td>"
+                                + "<td>" + data[i].data09 + "</td>"
+                                + "<td>" + data[i].data0a + "</td>"
+                                + "<td>" + data[i].data0b + "</td>"
+                                + "<td>" + data[i].data0c + "</td>"
+                                + "<td>" + data[i].data0d + "</td>"
+                                + "<td>" + data[i].data0e + "</td>"
+                                + "<td>" + data[i].data0f + "</td>"
+                                + "<td>" + data[i].data10 + "</td>"
+                                + "<td>" + data[i].data11 + "</td>"
+                                + "<td>" + data[i].data12 + "</td>"
+                                + "<td>" + data[i].data13 + "</td>"
+                                + "<td>" + data[i].data14 + "</td>"
+                                + "<td>" + data[i].data15 + "</td>"
+                                + "<td>" + data[i].data16 + "</td>"
+                                + "<td>" + data[i].data17 + "</td>"
+                                + "<td>" + data[i].data18 + "</td>"
+                                + "<td>" + data[i].data19 + "</td>"
+                                + "<td>" + data[i].data1a + "</td>"
+                                + "<td>" + data[i].data1b + "</td>"
+                                + "<td>" + data[i].data1c + "</td>"
+                                + "<td>" + data[i].data1d + "</td>"
+                                + "<td>" + data[i].data1e + "</td>"
+                                + "<td>" + data[i].data1f + "</td>"
+                                + "<td>" + data[i].data20 + "</td>"
+                                + "<td>" + data[i].data21 + "</td>"
+                                + "</tr>";
+                    }
+                    $("#ulul").append(html); //在html页面id=ulul的标签里显示html内容
+                },
+                error :function(errorMsg) {
+                    alert("获取后台数据失败00！");
+                }
+            });
+        });
 
-$(document).ready(function() {
-    $.ajax({
-    url : "/getData00",//请求地址
-    dataType : "json",//数据格式
-    type : "get",//请求方式
-    async : false,//是否异步请求
-    success : function(data) {   //如何发送成功
-    var html = "";
-    for(var i=0;i<data.length;i++){    //遍历data数组
-            var ls = data[i];
-            html +="<tr><td>"+ls+"</td>" + "<td>"+ls+"</td></tr>";
-        }
-        $("#ulul").append(html); //在html页面id=ulul的标签里显示html内容
-    }
-})
-})
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '传感器数据',
+                x: 'center',
+            },
+            tooltip: {trigger: 'axis'},
+            toolbox: {
+                feature: {
+                dataView:{
+                    show: true,
+                    title: '传感器数据',
+                    readOnly:false,
+                },
+                restore: {},
+                saveAsImage: {}
+                }
+            },
+            legend: {
+                    type: 'slider',
+                    orient: 'vertical',
+                    top: 35,
+                    bottom: 5,
+                    left: 'right', //位置
+                    icon: "rect",//形状  类型包括 circle，rect,line，roundRect，triangle，diamond，pin，arrow，none
+                    itemWidth: 8,  // 设置宽度
+                    itemHeight: 5, // 设置高度
+                    itemGap: 10, // 设置间距
+                    textStyle: {
+                        //文字样式
+                        fontSize: "12"
+                     },
+                    data:['Address', 'Data00', 'Data01', 'Data02', 'Data03', 'Data04', 'Data05', 'Data06', 'Data07', 'Data08', 'Data09', 'Data0A', 'Data0B', 'Data0C', 'Data0D', 'Data0E', 'Data0F', 'Data10', 'Data11', 'Data12', 'Data13', 'Data14', 'Data15', 'Data16', 'Data17', 'Data18', 'Data19', 'Data1A', 'Data1B', 'Data1C', 'Data1D', 'Data1E', 'Data1F', 'Data20', 'Data21']
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: true,
+                data: recordTime,
+            },
 
-</script>
-<table id="ulul" border="1">
-    <tr>
-        <th>Data00</th>
-        <th>Data01</th>
-    </tr>
-</table>
+            yAxis: {type: 'value'},
+
+            dataZoom: [{
+                type: 'slider',
+                show: true,
+                start: 0,
+                end: 50,
+                handleSize: 8
+              },
+              {
+                type: 'inside',
+                start: 0,
+                end: 50
+              }
+            ],
+            series: [
+                {
+                name: 'Address',
+                type: 'line',
+                data: sensorAddress
+                },
+                {
+                name: 'Data00',
+                type: 'line',
+                data: data00
+                },
+                {
+                name: 'Data01',
+                type: 'line',
+                data: data01
+                },
+                {
+                name: 'Data02',
+                type: 'line',
+                data: data02
+                },
+                {
+                name: 'Data03',
+                type: 'line',
+                data: data03
+                },
+                {
+                name: 'Data04',
+                type: 'line',
+                data: data04
+                },
+                {
+                    name: 'Data05',
+                    type: 'line',
+                    data: data05
+                },
+                {
+                    name: 'Data06',
+                    type: 'line',
+                    data: data06
+                },
+                {
+                    name: 'Data07',
+                    type: 'line',
+                    data: data07
+                },
+                {
+                    name: 'Data08',
+                    type: 'line',
+                    data: data08
+                },
+                {
+                    name: 'Data09',
+                    type: 'line',
+                    data: data09
+                },
+                {
+                    name: 'Data0A',
+                    type: 'line',
+                    data: data0a
+                },
+                {
+                    name: 'Data0B',
+                    type: 'line',
+                    data: data0b
+                },
+                {
+                    name: 'Data0C',
+                    type: 'line',
+                    data: data0c
+                },
+                {
+                    name: 'Data0D',
+                    type: 'line',
+                    data: data0d
+                },
+                {
+                    name: 'Data0E',
+                    type: 'line',
+                    data: data0e
+                },
+                {
+                    name: 'Data0F',
+                    type: 'line',
+                    data: data0f
+                },
+                {
+                    name: 'Data10',
+                    type: 'line',
+                    data: data10
+                },
+                {
+                    name: 'Data11',
+                    type: 'line',
+                    data: data11
+                },
+                {
+                    name: 'Data12',
+                    type: 'line',
+                    data: data12
+                },
+                {
+                    name: 'Data13',
+                    type: 'line',
+                    data: data13
+                },
+                {
+                    name: 'Data14',
+                    type: 'line',
+                    data: data14
+                },
+                {
+                    name: 'Data15',
+                    type: 'line',
+                    data: data15
+                },
+                {
+                    name: 'Data16',
+                    type: 'line',
+                    data: data16
+                },
+                {
+                    name: 'Data17',
+                    type: 'line',
+                    data: data17
+                },
+                {
+                    name: 'Data18',
+                    type: 'line',
+                    data: data18
+                },
+                {
+                    name: 'Data19',
+                    type: 'line',
+                    data: data19
+                },
+                {
+                    name: 'Data1A',
+                    type: 'line',
+                    data: data1a
+                },
+                {
+                    name: 'Data1B',
+                    type: 'line',
+                    data: data1b
+                },
+                {
+                    name: 'Data1C',
+                    type: 'line',
+                    data: data1c
+                },
+                {
+                    name: 'Data1D',
+                    type: 'line',
+                    data: data1d
+                },
+                {
+                    name: 'Data1E',
+                    type: 'line',
+                    data: data1e
+                },
+                {
+                    name: 'Data1F',
+                    type: 'line',
+                    data: data1f
+                },
+                {
+                    name: 'Data20',
+                    type: 'line',
+                    data: data20
+                },
+                {
+                    name: 'Data21',
+                    type: 'line',
+                    data: data21
+                }
+                ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
+    <table id="ulul" border="1">
+        <tr>
+            <th>RecordTime</th>
+            <th>SensorAddress</th>
+            <th>ComNum</th>
+            <th>Mark</th>
+            <th>Data00</th>
+            <th>Data01</th>
+            <th>Data02</th>
+            <th>Data03</th>
+            <th>Data04</th>
+            <th>Data05</th>
+            <th>Data06</th>
+            <th>Data07</th>
+            <th>Data08</th>
+            <th>Data09</th>
+            <th>Data0A</th>
+            <th>Data0B</th>
+            <th>Data0C</th>
+            <th>Data0D</th>
+            <th>Data0E</th>
+            <th>Data0F</th>
+            <th>Data10</th>
+            <th>Data11</th>
+            <th>Data12</th>
+            <th>Data13</th>
+            <th>Data14</th>
+            <th>Data15</th>
+            <th>Data16</th>
+            <th>Data17</th>
+            <th>Data18</th>
+            <th>Data19</th>
+            <th>Data1A</th>
+            <th>Data1B</th>
+            <th>Data1C</th>
+            <th>Data1D</th>
+            <th>Data1E</th>
+            <th>Data1F</th>
+            <th>Data20</th>
+            <th>Data21</th>
+        </tr>
+    </table>
 </body>
