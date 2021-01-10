@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvyb.intelligenceAgriculture.mapper.MeasureDataMapper" >
+  <resultMap id="BaseResultMap" type="com.lvyb.intelligenceAgriculture.entity.MeasureData" >
+    <id column="measure_no" property="measureNo" jdbcType="INTEGER" />
+    <result column="greenhouse_id" property="greenhouseId" jdbcType="INTEGER" />
+    <result column="measure_time" property="measureTime" jdbcType="TIMESTAMP" />
+    <result column="water" property="water" jdbcType="INTEGER" />
+    <result column="illumination" property="illumination" jdbcType="INTEGER" />
+    <result column="spray" property="spray" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    measure_no, greenhouse_id, measure_time, water, illumination, spray
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_measure_data
+    where measure_no = #{measureNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_measure_data
+    where measure_no = #{measureNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvyb.intelligenceAgriculture.entity.MeasureData" >
+    insert into tb_measure_data (measure_no, greenhouse_id, measure_time, 
+      water, illumination, spray
+      )
+    values (#{measureNo,jdbcType=INTEGER}, #{greenhouseId,jdbcType=INTEGER}, #{measureTime,jdbcType=TIMESTAMP}, 
+      #{water,jdbcType=INTEGER}, #{illumination,jdbcType=INTEGER}, #{spray,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvyb.intelligenceAgriculture.entity.MeasureData" >
+    insert into tb_measure_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="measureNo != null" >
+        measure_no,
+      </if>
+      <if test="greenhouseId != null" >
+        greenhouse_id,
+      </if>
+      <if test="measureTime != null" >
+        measure_time,
+      </if>
+      <if test="water != null" >
+        water,
+      </if>
+      <if test="illumination != null" >
+        illumination,
+      </if>
+      <if test="spray != null" >
+        spray,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="measureNo != null" >
+        #{measureNo,jdbcType=INTEGER},
+      </if>
+      <if test="greenhouseId != null" >
+        #{greenhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="measureTime != null" >
+        #{measureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="water != null" >
+        #{water,jdbcType=INTEGER},
+      </if>
+      <if test="illumination != null" >
+        #{illumination,jdbcType=INTEGER},
+      </if>
+      <if test="spray != null" >
+        #{spray,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvyb.intelligenceAgriculture.entity.MeasureData" >
+    update tb_measure_data
+    <set >
+      <if test="greenhouseId != null" >
+        greenhouse_id = #{greenhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="measureTime != null" >
+        measure_time = #{measureTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="water != null" >
+        water = #{water,jdbcType=INTEGER},
+      </if>
+      <if test="illumination != null" >
+        illumination = #{illumination,jdbcType=INTEGER},
+      </if>
+      <if test="spray != null" >
+        spray = #{spray,jdbcType=INTEGER},
+      </if>
+    </set>
+    where measure_no = #{measureNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvyb.intelligenceAgriculture.entity.MeasureData" >
+    update tb_measure_data
+    set greenhouse_id = #{greenhouseId,jdbcType=INTEGER},
+      measure_time = #{measureTime,jdbcType=TIMESTAMP},
+      water = #{water,jdbcType=INTEGER},
+      illumination = #{illumination,jdbcType=INTEGER},
+      spray = #{spray,jdbcType=INTEGER}
+    where measure_no = #{measureNo,jdbcType=INTEGER}
+  </update>
+  <delete id="cleanMeasureData" parameterType="java.lang.Integer">
+    DELETE a from tb_measure_data a,
+    (SELECT measure_no FROM tb_measure_data WHERE greenhouse_id=#{greenhouseId,jdbcType=INTEGER} ORDER BY measure_no desc LIMIT #{dataSize,jdbcType=INTEGER},1) b
+    WHERE (a.measure_no) &lt; (b.measure_no);
+  </delete>
+</mapper>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<input name="music" type="button" id="music" οnclick="loadmusic(this)" size="6"  value="mp3">
+
+<input type="text" id="txt" value="1"/>
+<input type="button" onclick="add()" value="+"><input type="button" onclick="sub()" value="-"></td>
+<div id="div"></div>
+<script>
+    function add(){
+        var txt=document.getElementById("txt");
+        var a=txt.value;
+        a++;
+        txt.value=a;
+    }
+    function sub(){
+        var txt=document.getElementById("txt");
+        var a=txt.value;
+        if(a>1){
+            a--;
+            txt.value=a;
+        }else{
+            txt.value=1;
+        }
+
+    }
+function loadmusic(o){
+    alert('name='+o.name+' / id='+o.id);
+}
+
+    var Value = "Test"
+var oDiv = document.getElementById("div");
+oDiv.innerHTML = Value;
+</script>
+</body>
+</html>

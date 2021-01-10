@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvyb.intelligenceAgriculture.dao.DetectorDataMapper">
+  <resultMap id="BaseResultMap" type="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    <id column="detection_no" jdbcType="INTEGER" property="detectionNo" />
+    <result column="greenhouse_id" jdbcType="INTEGER" property="greenhouseId" />
+    <result column="detection_time" jdbcType="TIMESTAMP" property="detectionTime" />
+    <result column="temperature" jdbcType="INTEGER" property="temperature" />
+    <result column="humidity" jdbcType="INTEGER" property="humidity" />
+    <result column="co2" jdbcType="INTEGER" property="co2" />
+    <result column="oxygen" jdbcType="INTEGER" property="oxygen" />
+    <result column="nitrogen" jdbcType="INTEGER" property="nitrogen" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detection_no, greenhouse_id, detection_time, temperature, humidity, co2, oxygen, 
+    nitrogen
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_detector_data
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_detector_data
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    insert into tb_detector_data (detection_no, greenhouse_id, detection_time, 
+      temperature, humidity, co2, 
+      oxygen, nitrogen)
+    values (#{detectionNo,jdbcType=INTEGER}, #{greenhouseId,jdbcType=INTEGER}, #{detectionTime,jdbcType=TIMESTAMP}, 
+      #{temperature,jdbcType=INTEGER}, #{humidity,jdbcType=INTEGER}, #{co2,jdbcType=INTEGER}, 
+      #{oxygen,jdbcType=INTEGER}, #{nitrogen,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    insert into tb_detector_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detectionNo != null">
+        detection_no,
+      </if>
+      <if test="greenhouseId != null">
+        greenhouse_id,
+      </if>
+      <if test="detectionTime != null">
+        detection_time,
+      </if>
+      <if test="temperature != null">
+        temperature,
+      </if>
+      <if test="humidity != null">
+        humidity,
+      </if>
+      <if test="co2 != null">
+        co2,
+      </if>
+      <if test="oxygen != null">
+        oxygen,
+      </if>
+      <if test="nitrogen != null">
+        nitrogen,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detectionNo != null">
+        #{detectionNo,jdbcType=INTEGER},
+      </if>
+      <if test="greenhouseId != null">
+        #{greenhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTime != null">
+        #{detectionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temperature != null">
+        #{temperature,jdbcType=INTEGER},
+      </if>
+      <if test="humidity != null">
+        #{humidity,jdbcType=INTEGER},
+      </if>
+      <if test="co2 != null">
+        #{co2,jdbcType=INTEGER},
+      </if>
+      <if test="oxygen != null">
+        #{oxygen,jdbcType=INTEGER},
+      </if>
+      <if test="nitrogen != null">
+        #{nitrogen,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    update tb_detector_data
+    <set>
+      <if test="greenhouseId != null">
+        greenhouse_id = #{greenhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="detectionTime != null">
+        detection_time = #{detectionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="temperature != null">
+        temperature = #{temperature,jdbcType=INTEGER},
+      </if>
+      <if test="humidity != null">
+        humidity = #{humidity,jdbcType=INTEGER},
+      </if>
+      <if test="co2 != null">
+        co2 = #{co2,jdbcType=INTEGER},
+      </if>
+      <if test="oxygen != null">
+        oxygen = #{oxygen,jdbcType=INTEGER},
+      </if>
+      <if test="nitrogen != null">
+        nitrogen = #{nitrogen,jdbcType=INTEGER},
+      </if>
+    </set>
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    update tb_detector_data
+    set greenhouse_id = #{greenhouseId,jdbcType=INTEGER},
+      detection_time = #{detectionTime,jdbcType=TIMESTAMP},
+      temperature = #{temperature,jdbcType=INTEGER},
+      humidity = #{humidity,jdbcType=INTEGER},
+      co2 = #{co2,jdbcType=INTEGER},
+      oxygen = #{oxygen,jdbcType=INTEGER},
+      nitrogen = #{nitrogen,jdbcType=INTEGER}
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </update>
+</mapper>

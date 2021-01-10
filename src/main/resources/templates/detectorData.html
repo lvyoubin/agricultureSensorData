@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>智慧农业系统</title>
+    <script src="js/echarts.min.js"></script>
+    <script src="js/jquery.js"></script>
+<!--    <script src="js/moment.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <style>
+        table {
+            cellspacing:0 ;
+            *border-collapse: collapse; /* IE7 and lower */
+            border-spacing: 2px;
+            width: 90%;
+<!--            border: 1;-->
+            font-size:14px;
+            table-layout:fixed;
+            margin:10px auto;
+        }
+         table.measureTable {
+            cellspacing:0 ;
+            *border-collapse: collapse; /* IE7 and lower */
+            width: 90%;
+            font-size:16px;
+            table-layout:fixed;
+            margin:10px auto;
+        }
+
+        body {text-align: center;}
+
+        tr{
+            width: 180px;
+            height: 30px;
+<!--            line-height: 30px;-->
+            border-bottom: 1px solid #000;
+            background-color: #66FFFF;
+        }
+         tr.measureTable{
+            width: 180px;
+            height: 35px;
+            line-height: 30px;
+            background-color: #FFFFFF;
+<!--            border-bottom: 1px solid #000;-->
+        }
+        td,th{
+<!--            width: 99px;-->
+            height: 35px;
+<!--            line-height: 25px;-->
+            text-align: center;
+<!--            border: 1px solid #000;-->
+        }
+
+         td.buttonTd{
+            width: 80px;
+            text-align: center;
+        }
+        .select{
+            width:100%;
+            height:100%;
+        }
+        .setData{
+            width:100px;
+<!--            border:1px solid #66CCFF;-->
+        }
+        .inducePlan{
+            width:60px;
+            height:100%;
+        }
+        .button{
+            width:100%;
+            height:100%;
+        }
+
+<!--        body{ margin:0; height:100%}-->
+<!--html{ height:100%} /*兼容firefox的div高度100%*/-->
+<!--#detectorDataChart{ position:absolute; left:5%; width:90%; height:430px;}-->
+    </style>
+</head>
+<body>
+<div class="greenHouseInfo" id="greenHouseInfo" ></div>
+<!--<div><table class="measureTable">-->
+<!--    <tr class="measureTable">-->
+<!--        <td>-->
+<!--         浇水 : <input type="text" class="setData" id="waterData" value=""/>-->
+<!--        <input type="button" onclick="addWater()" value="+"><input type="button" onclick="subWater()" value="-">-->
+<!--        <input type='button' onclick="showWater()" value='确认' /><input type='button' onclick="showWater()" value='取消' />-->
+<!--        </td>-->
+<!--        <td>-->
+<!--         光照: <input type="text" class="setData" id="illuminationData" value=""/>-->
+<!--        <input type="button" onclick="addIllumination()" value="+"><input type="button" onclick="subIllumination()" value="-">-->
+<!--        <input type='button' onclick="showIllumination()" value='确认' /><input type='button' onclick="showIllumination()" value='取消' />-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--&lt;!&ndash;    <tr class="measureTable">&ndash;&gt;-->
+<!--&lt;!&ndash;         <td>&ndash;&gt;-->
+<!--&lt;!&ndash;         喷药: <input type="text" class="setData" id="sprayData" value=""/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type="button" onclick="addSpray()" value="+"><input type="button" onclick="subSpray()" value="-">&ndash;&gt;-->
+<!--&lt;!&ndash;        <input type='button' onclick="showSpray()" value='确认' /><input type='button' onclick="showSpray()" value='取消' />&ndash;&gt;-->
+<!--&lt;!&ndash;        </td>&ndash;&gt;-->
+<!--&lt;!&ndash;    </tr>&ndash;&gt;-->
+<!--</table>-->
+</div>
+<div id="detectorDataChart" style="height:500px;width:90%"></div>
+<script type="text/javascript">
+    function getQueryVariable(variable)
+    {
+       var query = window.location.search.substring(1);
+       var vars = query.split("&");
+       for (var i=0;i<vars.length;i++) {
+               var pair = vars[i].split("=");
+               if(pair[0] == variable){return pair[1];}
+       }
+       return(false);
+    }
+        var greenhouseId = getQueryVariable("greenhouseId")
+
+            function ajaxGreenHouseInfo(){
+            $.ajax( {url: "/getGreenHouseInfoById?id="+greenhouseId, async: false,cache:false,type:'GET',dataType:'json',
+                success: function(data)
+                {
+                console.log(data);
+                var greenHouseInfo = document.getElementById('greenHouseInfo');
+                //将数据显示在页面上
+                var str = "";
+                str +="<div ><table><thead><tr><th>大棚号</th><th>所有人</th><th>位置</th><th>作物</th><th>面积</th><th>宽度</th><th>长度</th><th>高度</th></thead><tbody>";
+                //遍历数据
+                str +="<tr><td>"+data.greenhouseId+"</td><td>"+data.owner+"</td><td>"+data.location+"</td><td>"+data.crop+"</td><td>"+data.area+"</td><td>"+data.width+"</td><td>"+data.length+"</td><td>"+data.height+"</td>";
+                str +="</tbody></table>";
+                //将表格添加到body中
+                greenHouseInfo.innerHTML =str;
+                },
+                error :function(errorMsg) {
+                    alert("获取后台数据失败！");
+                }
+            });
+            }
+            ajaxGreenHouseInfo();
+
+
+        // 初始化echarts实例
+        var detectorDataChart = echarts.init(document.getElementById('detectorDataChart'));
+        detectorDataChart.showLoading();
+
+        function getDetectorData(){
+            $.ajax( {url: "/getDetectorDataById?id="+greenhouseId, async: false, cache:false,type:'GET',dataType:'json',
+                success: function(data)
+                {
+                    var recordTime = [];
+                    var greenhouseId = [];
+                    var name = [];
+                    var temperature = [];
+                    var humidity = [];
+                    var co2 = [];
+                    var oxygen = [];
+                    var nitrogen = [];
+
+                    for (var i = 0; i < data.length; i++)
+                    {
+                        recordTime.push(moment(data[i].detectionTime).format('YYYY-MM-DD h:mm:ss'));
+                        greenhouseId.push(data[i].greenhouseId);
+                        name.push(data[i].owner);
+                        temperature.push(data[i].temperature);
+                        humidity.push(data[i].humidity);
+                        co2.push(data[i].co2);
+                        oxygen.push(data[i].oxygen);
+                        nitrogen.push(data[i].nitrogen);
+                    }
+
+
+                detectorDataChart.setOption({
+<!--                    backgroundColor: '#66CCFF',-->
+                    title: {
+                    show: false,
+                    text: '检测数据',
+                    x: 'center',
+                    padding: 25,
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        axisPointer: {
+                            type: 'cross'
+                        }
+                    },
+                    grid: [
+                            {x: '7%', y: '7%', width: '38%', height: '38%'},
+                            {x2: '7%', y: '7%', width: '38%', height: '38%'},
+                            {x: '7%', y2: '7%', width: '38%', height: '38%'},
+                            {x2: '7%', y2: '7%', width: '38%', height: '38%'}
+                        ],
+
+                        xAxis: [
+                            {gridIndex: 0,                         type: 'category',
+                                            boundaryGap: true,
+                                            data: recordTime},
+                            {gridIndex: 1,                         type: 'category',
+                                            boundaryGap: true,
+                                            data: recordTime},
+                            {gridIndex: 2,                        type: 'category',
+                                            boundaryGap: true,
+                                            data: recordTime},
+                            {gridIndex: 3,                         type: 'category',
+                                            boundaryGap: true,
+                                            data: recordTime}
+                        ],
+                        yAxis: [
+                            {gridIndex: 0, type: 'value', name:'温度'},
+                            {gridIndex: 1, type: 'value', name:'湿度'},
+                            {gridIndex: 2, type: 'value', name:'CO2'},
+                            {gridIndex: 3, type: 'value', name:'O2'}
+                        ],
+<!--                    dataZoom: [{-->
+<!--                        type: 'slider',-->
+<!--                        show: true,-->
+<!--                        xAxisIndex: [0,1,2,3],-->
+<!--                        start: 50,-->
+<!--                        end: 100,-->
+<!--                        handleSize: 8-->
+<!--                      },-->
+<!--                      {-->
+<!--                        type: 'inside',-->
+<!--                        start: 50,-->
+<!--                        end: 100,-->
+<!--                        xAxisIndex: [0,1,2,3],-->
+<!--                      }-->
+<!--                    ],-->
+<!--                        visualMap: {-->
+<!--                            top: 10,-->
+<!--                            right: 10,-->
+<!--                            pieces: [{-->
+<!--                                gt: 0,-->
+<!--                                lte: 20,-->
+<!--                                color: '#096'-->
+<!--                            }, {-->
+<!--                                gt: 20,-->
+<!--                                lte: 40,-->
+<!--                                color: '#ffde33'-->
+<!--                            }, {-->
+<!--                                gt: 40,-->
+<!--                                lte: 60,-->
+<!--                                color: '#ff9933'-->
+<!--                            }, {-->
+<!--                                gt: 60,-->
+<!--                                lte: 80,-->
+<!--                                color: '#cc0033'-->
+<!--                            }, {-->
+<!--                                gt: 80,-->
+<!--                                lte: 100,-->
+<!--                                color: '#660099'-->
+<!--                            }, {-->
+<!--                                gt: 100,-->
+<!--                                color: '#7e0023'-->
+<!--                            }],-->
+<!--                            outOfRange: {-->
+<!--                                color: '#999'-->
+<!--                            }-->
+<!--                        },-->
+                    series: [
+                        {
+                            name: 'temperature',
+                            type: 'line',
+                            xAxisIndex: 0,
+                            yAxisIndex: 0,
+                            data: temperature
+                        },
+                        {
+                            name: 'humidity',
+                            type: 'line',
+                            xAxisIndex: 1,
+                            yAxisIndex: 1,
+                            data: humidity
+                        },
+                        {
+                            name: 'CO2',
+                            type: 'line',
+                            xAxisIndex: 2,
+                            yAxisIndex: 2,
+                            data: co2
+                        },
+                        {
+                            name: 'oxygen',
+                            type: 'line',
+                            xAxisIndex: 3,
+                            yAxisIndex: 3,
+                            data: oxygen
+                        }]
+                    });
+                },
+                error :function(errorMsg) {
+                    alert("获取后台数据失败！");
+                }
+            });
+            detectorDataChart.hideLoading();
+            }
+            getDetectorData();
+            window.setInterval(function(){getDetectorData()},3000); //每三秒调用一次ajax刷新数据
+
+            function getMeasureDataById(){
+            $.ajax( {url: "/addMeasureDataById?greenhouseId="+greenhouseId, async: false,cache:false,type:'GET',dataType:'json',
+                success: function(data)
+                {
+                document.getElementById("waterData").value = data.water;
+                document.getElementById("illuminationData").value = data.illumination;
+                },
+                error :function(errorMsg) {
+                    alert("操作数据获取失败！");
+                }
+            });
+            }
+            getMeasureDataById();
+            window.setInterval(function(){getMeasureDataById()},5000); //周期调用ajax刷新数据
+
+                function addInduceMassBPF(){
+                    var induceMassBPF=document.getElementById("induceMassBPF");
+                    var a=induceMassBPF.value;
+                    a++;
+                    induceMassBPF.value=a;
+                }
+                function subInduceMassBPF(){
+                    var induceMassBPF=document.getElementById("induceMassBPF");
+                    var a=induceMassBPF.value;
+                    if(a>1){
+                        a--;
+                        induceMassBPF.value=a;
+                    }else{
+                        induceMassBPF.value=0;
+                    }
+                }
+                function addInduceSpeedBPF(){
+                    var induceSpeedBPF=document.getElementById("induceSpeedBPF");
+                    var a=induceSpeedBPF.value;
+                    a++;
+                    induceSpeedBPF.value=a;
+                }
+                function subInduceSpeedBPF(){
+                    var induceSpeedBPF=document.getElementById("induceSpeedBPF");
+                    var a=induceSpeedBPF.value;
+                    if(a>1){
+                        a--;
+                        induceSpeedBPF.value=a;
+                    }else{
+                        induceSpeedBPF.value=0;
+                    }
+                }
+                function addWater(){
+                    var waterData=document.getElementById("waterData");
+                    var a=waterData.value;
+                    a++;
+                    waterData.value=a;
+                }
+                function subWater(){
+                    var waterData=document.getElementById("waterData");
+                    var a=waterData.value;
+                    if(a>1){
+                        a--;
+                        waterData.value=a;
+                    }else{
+                        waterData.value=0;
+                    }
+                }
+                function showWater(){
+                    var water=document.getElementById("waterData");
+                    alert("浇水量：" + water.value + "ml/h");
+
+<!--                    $.ajax( {url: "/addWaterData?greenhouseId="+greenhouseId + "&waterData="+water.value, async: false,type:'GET',dataType:'json',-->
+<!--                        success: function(data)-->
+<!--                        {-->
+<!--                        },-->
+<!--                        error :function(errorMsg) {-->
+<!--                            alert("操作数据获取失败！");-->
+<!--                        }-->
+<!--                    });-->
+                }
+
+
+                function addIllumination(){
+                    var illuminationData=document.getElementById("illuminationData");
+                    var a=illuminationData.value;
+                    a++;
+                    illuminationData.value=a;
+                }
+                function subIllumination(){
+                    var illuminationData=document.getElementById("illuminationData");
+                    var a=illuminationData.value;
+                    if(a>1){
+                        a--;
+                        illuminationData.value=a;
+                    }else{
+                        illuminationData.value=0;
+                    }
+                }
+                function showIllumination(){
+                    var illuminationData=document.getElementById("illuminationData");
+                    alert("光照量：" + illuminationData.value + "ml/h");
+                }
+
+                function addSpray(){
+                    var sprayData=document.getElementById("sprayData");
+                    var a=sprayData.value;
+                    a++;
+                    sprayData.value=a;
+                }
+                function subSpray(){
+                    var sprayData=document.getElementById("sprayData");
+                    var a=sprayData.value;
+                    if(a>1){
+                        a--;
+                        sprayData.value=a;
+                    }else{
+                        sprayData.value=0;
+                    }
+                }
+
+    </script>
+</body>
+</html>

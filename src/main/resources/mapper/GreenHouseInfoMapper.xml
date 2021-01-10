@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lvyb.intelligenceAgriculture.mapper.GreenHouseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.lvyb.intelligenceAgriculture.entity.GreenHouseInfo" >
+    <id column="greenhouse_id" property="greenhouseId" jdbcType="INTEGER" />
+    <result column="owner" property="owner" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="crop" property="crop" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="INTEGER" />
+    <result column="width" property="width" jdbcType="INTEGER" />
+    <result column="length" property="length" jdbcType="INTEGER" />
+    <result column="height" property="height" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    greenhouse_id, owner, location, crop, area, width, length, height
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_greenhouse_info
+    where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_greenhouse_info
+    where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvyb.intelligenceAgriculture.entity.GreenHouseInfo" >
+    insert into tb_greenhouse_info (greenhouse_id, owner, location, 
+      crop, area, width, 
+      length, height)
+    values (#{greenhouseId,jdbcType=INTEGER}, #{owner,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, 
+      #{crop,jdbcType=VARCHAR}, #{area,jdbcType=INTEGER}, #{width,jdbcType=INTEGER}, 
+      #{length,jdbcType=INTEGER}, #{height,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lvyb.intelligenceAgriculture.entity.GreenHouseInfo" >
+    insert into tb_greenhouse_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="greenhouseId != null" >
+        greenhouse_id,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="crop != null" >
+        crop,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="width != null" >
+        width,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="greenhouseId != null" >
+        #{greenhouseId,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="crop != null" >
+        #{crop,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=INTEGER},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=INTEGER},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lvyb.intelligenceAgriculture.entity.GreenHouseInfo" >
+    update tb_greenhouse_info
+    <set >
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="crop != null" >
+        crop = #{crop,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=INTEGER},
+      </if>
+      <if test="width != null" >
+        width = #{width,jdbcType=INTEGER},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=INTEGER},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=INTEGER},
+      </if>
+    </set>
+    where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lvyb.intelligenceAgriculture.entity.GreenHouseInfo" >
+    update tb_greenhouse_info
+    set owner = #{owner,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      crop = #{crop,jdbcType=VARCHAR},
+      area = #{area,jdbcType=INTEGER},
+      width = #{width,jdbcType=INTEGER},
+      length = #{length,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER}
+    where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+  </update>
+
+  <select id="getGreenHouseIds" resultType="java.lang.Integer">
+    select greenhouse_id from tb_greenhouse_info
+  </select>
+</mapper>

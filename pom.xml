@@ -8,12 +8,12 @@
 		<version>2.2.4.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.lnjs</groupId>
-	<artifactId>agriculture</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<groupId>com.lvyb</groupId>
+	<artifactId>intelligenceAgriculture</artifactId>
+	<version>1.1.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>agriculture</name>
-	<description>Agriculture project for Spring Boot</description>
+	<name>intelligenceAgriculture</name>
+	<description>IntelligenceAgriculture project for Spring Boot</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -90,6 +90,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
+        <!-- 用户账户登录-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-security</artifactId>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.security</groupId>-->
+<!--			<artifactId>spring-security-test</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+
 	</dependencies>
 
 	<build>

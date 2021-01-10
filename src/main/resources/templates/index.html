@@ -1,10 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html>
 <body>
-Welcome!
+<head>
+    <meta charset="utf-8">
+    <title>智慧农业系统</title>
+</head>
+<style>
+    .login {
+    background:url("../image/login.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -999;
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align:center;
+    }
+<!--    body{ text-align:center}-->
+    .form {
+        position: absolute;/*绝对定位*/
+<!--        width: 300px;-->
+<!--        height: 200px;-->
+        border: 1px solid red;
+        text-align: center;/*(让div中的内容居中)*/
+        top: 40%;
+        left: 45%;
+    }
+    .select {
+<!--        position: absolute;/*绝对定位*/-->
+        width: 80px;
+        height: 30px;
+    }
+    .select {
+        width: 60px;
+        height: 30px;
+    }
+</style>
+<!--<body background="../static/image/login.png">-->
+<div id="login" class="login">
+    <div id="form" class="form">
+
+        <h1>智慧农业系统</h1>
+        <form action="/detectorData" method="get" id="greenhouseIdForm">
+            大棚号：<select name="greenhouseId" form="greenhouseIdForm" class="select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+            </select>
+            <input type="submit" value="提交" class="input">
+        </form>
+    </div>
+</div>
 </body>
 </html>

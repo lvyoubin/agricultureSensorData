@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lvyb.intelligenceAgriculture.mapper.DetectorDataMapper">
+  <resultMap id="BaseResultMap" type="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    <id column="detection_no" jdbcType="INTEGER" property="detectionNo" />
+    <result column="greenhouse_id" jdbcType="INTEGER" property="greenhouseId" />
+    <result column="detection_time" jdbcType="TIMESTAMP" property="detectionTime" />
+    <result column="temperature" jdbcType="INTEGER" property="temperature" />
+    <result column="humidity" jdbcType="INTEGER" property="humidity" />
+    <result column="co2" jdbcType="INTEGER" property="co2" />
+    <result column="oxygen" jdbcType="INTEGER" property="oxygen" />
+    <result column="nitrogen" jdbcType="INTEGER" property="nitrogen" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detection_no, greenhouse_id, detection_time, temperature, humidity, co2, oxygen,
+    nitrogen
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_detector_data
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </select>
+  <select id="selectByGreenhouseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from (SELECT * FROM `tb_detector_data` WHERE greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+    ORDER BY detection_no DESC LIMIT 200) b ORDER BY detection_no;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_detector_data
+    where detection_no = #{detectionNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByGreenhouseId" parameterType="java.lang.Integer">
+    delete from tb_detector_data
+    where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lvyb.intelligenceAgriculture.entity.DetectorData">
+    insert into tb_detector_data (detection_no, greenhouse_id, detection_time,
+    temperature, humidity, co2,
+    oxygen, nitrogen)
+    values (#{detectionNo,jdbcType=INTEGER}, #{greenhouseId,jdbcType=INTEGER}, #{detectionTime,jdbcType=TIMESTAMP},
+    #{temperature,jdbcType=INTEGER}, #{humidity,jdbcType=INTEGER}, #{co2,jdbcType=INTEGER},
+    #{oxygen,jdbcType=INTEGER}, #{nitrogen,jdbcType=INTEGER})
+  </insert>
+
+  <select id="getLatestDetectorDataById" resultMap="BaseResultMap">
+    SELECT * FROM tb_detector_data where greenhouse_id = #{greenhouseId,jdbcType=INTEGER}
+    ORDER BY  detection_no desc LIMIT ${samplePointNo}
+  </select>
+  <delete id="cleanDetectorData" parameterType="java.lang.Integer">
+    DELETE a from tb_detector_data a,
+    (SELECT detection_no FROM tb_detector_data WHERE greenhouse_id=#{greenhouseId,jdbcType=INTEGER} ORDER BY detection_no desc LIMIT #{dataSize,jdbcType=INTEGER},1) b
+    WHERE (a.detection_no) &lt; (b.detection_no);
+  </delete>
+</mapper>
